@@ -1,27 +1,35 @@
+if (process.env.ENVIROMENT !== 'production') {
+  require('dotenv').config()
+}
+
+const contentfulConfig = {
+  spaceId: process.env.SPACE_ID,
+  accessToken: process.env.ACCESS_TOKEN,
+}
+
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "Gatsby Contentful Test",
+    title: 'Gatsby Contentful Test',
   },
   plugins: [
     {
-      resolve: "gatsby-source-contentful",
-      options: {
-        accessToken: "MYzoHxHt26FoP9LCOhFrrFW0imQ5MTfR_Rw-zd1BlxU",
-        spaceId: "x4nvm4g34swg",
-      },
+      resolve: 'gatsby-source-contentful',
+      options: contentfulConfig,
     },
-    "gatsby-plugin-styled-components",
-    "gatsby-plugin-image",
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
+    'gatsby-plugin-styled-components',
+    'gatsby-plugin-image',
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: "images",
-        path: "./src/images/",
+        name: 'images',
+        path: './src/images/',
       },
-      __key: "images",
+      __key: 'images',
     },
+    'gatsby-plugin-typescript',
+    'gatsby-plugin-offline',
+    'gatsby-plugin-react-helmet',
   ],
-};
+}
