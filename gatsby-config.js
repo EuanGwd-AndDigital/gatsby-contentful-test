@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 if (process.env.ENVIROMENT !== 'production') {
   require('dotenv').config()
 }

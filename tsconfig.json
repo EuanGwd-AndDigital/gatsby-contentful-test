@@ -22,7 +22,7 @@
     "pretty": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
   },
   "include": [
     "src/**/*"
