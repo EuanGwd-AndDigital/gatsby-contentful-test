@@ -29,6 +29,12 @@ module.exports = {
       },
       __key: 'images',
     },
+    {
+      resolve: 'gatsby-plugin-apollo',
+      options: {
+        uri: 'http://localhost:8000/___graphql',
+      },
+    },
     'gatsby-plugin-typescript',
     'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
