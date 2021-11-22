@@ -5,14 +5,12 @@ import styled from 'styled-components'
 
 const IndexPage = () => {
   const { data, error, loading } = useQuery(HOME_PAGE_QUERY)
-  console.log('file: index.tsx -> line 8 -> IndexPage -> error', error)
-  // const { nodes } = data?.allContentfulBlogPost
 
   if (error)
     return (
       <Main>
         <h1>{`Oops, something went wrong`}</h1>
-        <p>{`${error}`}</p>
+        <p>{error.message}</p>
       </Main>
     )
 
