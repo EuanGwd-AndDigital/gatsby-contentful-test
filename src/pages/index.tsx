@@ -1,29 +1,29 @@
 import React from 'react'
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from '@apollo/client'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { useQuery, gql } from '@apollo/client'
+import { GatsbyImage } from 'gatsby-plugin-image'
 import styled from 'styled-components'
 
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/___graphql',
-  cache: new InMemoryCache(),
-})
-
 const IndexPage = () => {
-  const { data } = useQuery(HOME_PAGE_QUERY)
+  const { data, error, loading } = useQuery(HOME_PAGE_QUERY)
+  console.log('file: index.tsx -> line 8 -> IndexPage -> error', error)
   // const { nodes } = data?.allContentfulBlogPost
 
-  return (
-    <ApolloProvider client={client}>
+  if (error)
+    return (
       <Main>
-        <title>Gatsby Blog</title>
-        <Header>Home Page</Header>
+        <h1>{`Oops, something went wrong`}</h1>
+        <p>{`${error}`}</p>
+      </Main>
+    )
 
+  return (
+    <Main>
+      <title>Gatsby Blog</title>
+      <Header>Home Page</Header>
+
+      {loading ? (
+        <div>{`Loading...`}</div>
+      ) : (
         <ul>
           {data?.allContentfulBlogPost.nodes.map((node) => (
             <Card>
@@ -36,8 +36,8 @@ const IndexPage = () => {
             </Card>
           ))}
         </ul>
-      </Main>
-    </ApolloProvider>
+      )}
+    </Main>
   )
 }
 
