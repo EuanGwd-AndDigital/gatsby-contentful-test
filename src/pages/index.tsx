@@ -6,6 +6,7 @@ import {
   useQuery,
   gql,
 } from '@apollo/client'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import styled from 'styled-components'
 
 const client = new ApolloClient({
@@ -25,7 +26,14 @@ const IndexPage = () => {
 
         <ul>
           {data?.allContentfulBlogPost.nodes.map((node) => (
-            <li>{node?.title}</li>
+            <Card>
+              <p>{node?.title}</p>
+
+              <GatsbyImage
+                image={node?.heroImage.gatsbyImageData}
+                alt={node?.title}
+              />
+            </Card>
           ))}
         </ul>
       </Main>
@@ -38,6 +46,9 @@ const HOME_PAGE_QUERY = gql`
     allContentfulBlogPost {
       nodes {
         title
+        heroImage {
+          gatsbyImageData
+        }
       }
     }
   }
@@ -50,6 +61,10 @@ const Main = styled.main`
 
 const Header = styled.h1`
   color: royalblue;
+`
+
+const Card = styled.li`
+  max-width: 100%;
 `
 
 export default IndexPage

@@ -38,5 +38,6 @@ module.exports = {
     'gatsby-plugin-typescript',
     'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-postcss',
   ],
 }
