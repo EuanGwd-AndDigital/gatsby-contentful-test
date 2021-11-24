@@ -10,7 +10,7 @@ const contentfulConfig = {
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Contentful Test',
+    title: 'Gatsby Contentful Apollo Typescript Tailwind',
   },
   plugins: [
     {
