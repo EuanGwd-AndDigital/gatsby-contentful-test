@@ -1,6 +1,9 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { GatsbyImage } from 'gatsby-plugin-image'
+import { Link } from 'gatsby'
+
+import Layout from '../components/layout'
 
 const IndexPage = () => {
   const { data, error, loading } = useQuery(HOME_PAGE_QUERY)
@@ -14,57 +17,50 @@ const IndexPage = () => {
     )
 
   return (
-    <main className="container mx-auto">
-      <title>Gatsby Blog</title>
-      <header className="bg-white shadow">
-        <div className="py-6 px-4 sm:px-6 lg:px-8 flex justify-center items-center ">
-          <h1 className="text-3xl font-bold text-gray-900">
-            {data?.site.siteMetadata.title}
-          </h1>
-        </div>
-      </header>
+    <Layout pageTitle="Gallery">
+      <>
+        {loading ? (
+          <div>{`Loading...`}</div>
+        ) : (
+          <div className="bg-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-2xl mx-auto py-16 sm:py-24 lg:py-32 lg:max-w-none">
+                <h2 className="text-2xl font-extrabold text-gray-900">Blogs</h2>
 
-      {loading ? (
-        <div>{`Loading...`}</div>
-      ) : (
-        <div className="bg-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl mx-auto py-16 sm:py-24 lg:py-32 lg:max-w-none">
-              <h2 className="text-2xl font-extrabold text-gray-900">Blogs</h2>
-
-              <div className="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
-                {data?.allContentfulBlogPost.nodes.map((node) => (
-                  <div key={node.title} className="group relative">
-                    <div className="relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
-                      <GatsbyImage
-                        image={node?.heroImage.gatsbyImageData}
-                        alt={node?.title}
-                        className="w-full h-full object-center object-cover"
-                      />
+                <div className="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
+                  {data?.blog.nodes.map((node) => (
+                    <div key={node.title} className="group relative">
+                      <div className="relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
+                        <GatsbyImage
+                          image={node?.heroImage.gatsbyImageData}
+                          alt={node?.title}
+                          className="w-full h-full object-center object-cover"
+                        />
+                      </div>
+                      <h3 className="mt-6 text-sm text-gray-500">
+                        <Link to={`/blog/${node.slug}`}>
+                          <span className="absolute inset-0" />
+                          {node.title}
+                        </Link>
+                      </h3>
+                      <p className="text-base font-semibold text-gray-900">
+                        {node.description.description}
+                      </p>
                     </div>
-                    <h3 className="mt-6 text-sm text-gray-500">
-                      <a href={node.slug}>
-                        <span className="absolute inset-0" />
-                        {node.title}
-                      </a>
-                    </h3>
-                    <p className="text-base font-semibold text-gray-900">
-                      {node.description.description}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </main>
+        )}
+      </>
+    </Layout>
   )
 }
 
 const HOME_PAGE_QUERY = gql`
   query HomePageQuery {
-    allContentfulBlogPost {
+    blog: allContentfulBlogPost {
       nodes {
         title
         slug
@@ -76,7 +72,7 @@ const HOME_PAGE_QUERY = gql`
         }
       }
     }
-    site {
+    site: site {
       siteMetadata {
         title
       }
