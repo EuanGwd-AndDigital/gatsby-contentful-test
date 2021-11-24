@@ -1,7 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { Link } from 'gatsby'
 
 import Layout from './Layout'
 
@@ -18,6 +17,8 @@ const BlogPage = ({ pageContext: { postId } }: BlogPageProps) => {
     },
   })
 
+  if (loading) return <div>{`Loading...`}</div>
+
   if (error)
     return (
       <main className="container mx-auto">
@@ -28,27 +29,50 @@ const BlogPage = ({ pageContext: { postId } }: BlogPageProps) => {
 
   return (
     <Layout pageTitle="My Blog Posts">
-      {loading ? (
-        <div>{`Loading...`}</div>
-      ) : (
-        <div key={data?.post?.title} className="group relative">
-          <h1 className="mt-6 text-sm text-gray-500">
-            <span className="absolute inset-0" />
-            {data?.post?.title}
-          </h1>
-          <div className="relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
-            <GatsbyImage
-              image={data?.post?.heroImage.gatsbyImageData}
-              alt={data?.post?.title}
-              className="w-full h-full object-center object-cover"
-            />
+      <section key={data?.post?.title} className="bg-white dark:bg-gray-800">
+        <div className="container px-6 py-8 mx-auto">
+          <div className="items-center lg:flex">
+            <div className="lg:w-1/2">
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+                {data?.post?.title}
+              </h2>
+
+              <p className="mt-4 text-gray-500 dark:text-gray-400 max-w-80 max-h-80 overflow-y-auto">
+                {data?.post.body.childMdx.rawBody}
+              </p>
+
+              <div className="flex items-center justify-between mt-4">
+                <div className="font-bold text-gray-700 cursor-pointer dark:text-gray-200">
+                  {data?.post?.publishDate}
+                </div>
+
+                <div className="flex items-center">
+                  <GatsbyImage
+                    className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block"
+                    image={data?.post?.author.image.gatsbyImageData}
+                    alt={data?.post?.title}
+                  />
+                  <div className="font-bold text-gray-700 cursor-pointer dark:text-gray-200">
+                    {data?.post?.author.name}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 lg:mt-0 lg:w-1/2">
+              <div className="flex items-center justify-center lg:justify-end">
+                <div className="max-w-lg">
+                  <GatsbyImage
+                    className="object-cover object-center w-full h-64 rounded-md shadow"
+                    image={data?.post?.heroImage.gatsbyImageData}
+                    alt={data?.post?.title}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          {/* <p className="text-base font-semibold text-gray-900">
-            {data?.post?.description.description}
-          </p> */}
         </div>
-      )}
-      <Link to={`/`}>Back</Link>
+      </section>
     </Layout>
   )
 }
@@ -63,9 +87,15 @@ const BLOG_PAGE_QUERY = gql`
       }
       author {
         name
+        image {
+          gatsbyImageData
+        }
       }
+      publishDate
       body {
-        body
+        childMdx {
+          rawBody
+        }
       }
     }
   }
