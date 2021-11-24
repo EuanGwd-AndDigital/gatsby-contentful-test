@@ -1,6 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 
+import Navbar from './Navbar'
+
 type LayoutProps = {
   pageTitle: string
   children: React.ReactNode
@@ -21,14 +23,8 @@ const Layout = ({ pageTitle, children }: LayoutProps) => {
       <title>
         {pageTitle} | {data.site.siteMetadata.title}
       </title>
-      <header className="bg-white shadow">
-        <div className="py-6 px-4 sm:px-6 lg:px-8 flex justify-center items-center ">
-          <h1 className="text-3xl font-bold text-gray-900">
-            {data?.site.siteMetadata.title}
-          </h1>
-        </div>
-      </header>
-      <div>{children}</div>
+      <Navbar title={data?.site.siteMetadata.title} />
+      <div className="mt-5 w-full">{children}</div>
     </main>
   )
 }
