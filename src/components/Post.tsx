@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
-import Layout from './Layout'
+import Layout from './Page'
 
 type BlogPageProps = {
   pageContext: {

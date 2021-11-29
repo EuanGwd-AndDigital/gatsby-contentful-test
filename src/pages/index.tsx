@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { Link } from 'gatsby'
 
-import Layout from '../components/Layout'
+import Layout from '../components/Page'
 
 type DataNodeProps = {
   title: string
