@@ -20,7 +20,9 @@ const Layout = ({ pageTitle, children }: LayoutProps) => {
   `)
   return (
     <main className="container mx-auto">
-      <title>{pageTitle}</title>
+      <title>
+        {pageTitle} | {data.site.siteMetadata.title}
+      </title>
       <Navbar title={data?.site.siteMetadata.title} />
       <div className="mt-5 w-full">{children}</div>
     </main>
